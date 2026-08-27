@@ -1,0 +1,17 @@
+.MMM-InsideWeather .type-temp {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.MMM-InsideWeather .sensor-icon {
+  font-size: 75%;
+}
+
+.MMM-InsideWeather .secondary-row {
+  margin-top: 4px;
+}
+
+.MMM-InsideWeather .secondary-row .separator {
+  margin: 0 12px;
+}

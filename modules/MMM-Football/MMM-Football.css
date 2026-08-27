@@ -1,0 +1,78 @@
+/* stylelint-disable selector-class-pattern */
+.MMM-Football .league-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.MMM-Football .league-logo {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.MMM-Football .league-name {
+  letter-spacing: 1px;
+}
+
+.MMM-Football .no-matches {
+  font-style: italic;
+  padding-left: 2px;
+  margin-bottom: 2px;
+}
+
+.MMM-Football .match-container {
+  margin-bottom: 2px;
+}
+
+.MMM-Football .match-status-line {
+  margin-bottom: 3px;
+}
+
+.MMM-Football .match-status-live {
+  color: #4caf50;
+}
+
+.MMM-Football .match-status-info {
+  color: #666;
+}
+
+.MMM-Football .team-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.MMM-Football .team-logo {
+  object-fit: contain;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.MMM-Football .team-logo-placeholder {
+  border-radius: 3px;
+  flex-shrink: 0;
+  background-color: #444;
+}
+
+.MMM-Football .team-name {
+  flex: 1;
+}
+
+.MMM-Football .team-score {
+  font-weight: bold;
+  min-width: 16px;
+  text-align: right;
+}
+
+.MMM-Football .match-divider {
+  border-top: 1px solid #2a2a2a;
+  margin: 6px 0;
+}
+
+.MMM-Football .league-spacer {
+  height: 12px;
+}

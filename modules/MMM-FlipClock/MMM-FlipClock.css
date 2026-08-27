@@ -1,0 +1,74 @@
+.MMM-FlipClock .flip-date {
+	margin-bottom: 8px;
+}
+
+.MMM-FlipClock .flip-time {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.MMM-FlipClock .flip-digit {
+	position: relative;
+	overflow: hidden;
+	width: 1.2em;
+	height: 1.4em;
+	background: rgba(255, 255, 255, 0.06);
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MMM-FlipClock .flip-digit-current,
+.MMM-FlipClock .flip-digit-next {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-primary), sans-serif;
+	color: var(--color-text-bright);
+}
+
+.MMM-FlipClock .flip-digit-next {
+	transform: translateY(100%);
+	opacity: 0;
+}
+
+.MMM-FlipClock .flip-digit.rolling .flip-digit-current {
+	animation: flip-roll-out 400ms ease-in-out forwards;
+}
+
+.MMM-FlipClock .flip-digit.rolling .flip-digit-next {
+	animation: flip-roll-in 400ms ease-in-out forwards;
+}
+
+@keyframes flip-roll-out {
+	from {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes flip-roll-in {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.MMM-FlipClock .flip-separator {
+	width: 0.5em;
+	text-align: center;
+	color: var(--color-text-dimmed);
+}

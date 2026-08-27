@@ -1,0 +1,271 @@
+/* MMM-Luigi — the face
+ *
+ * Pure geometry: no sprite sheet, no images. Expressions are class swaps, so a
+ * new mood costs a few rules rather than another row of artwork.
+ *
+ * Styled after the original: a solid mint console face with dark features,
+ * rather than a glowing outline. Two custom properties carry it — --luigi-fill
+ * for the face plate and --luigi-ink for the eyes and mouth — so a mood shifts
+ * the whole character from one place while the features stay dark and legible.
+ *
+ * Animation is confined to transform and opacity, which the Pi's compositor
+ * handles on the GPU. Blink animates .luigi-eye while the idle fidget animates
+ * the .luigi-eyes container, so the two never contend for the same transform.
+ */
+
+.luigi {
+  /* Defaults; every mood block below overrides these. */
+  --luigi-fill: #7ecfb4;
+  --luigi-ink: #14332c;
+
+  /*
+   * Face translucency. Referenced by the boot keyframe too, so waking cannot
+   * flash the plate to full opacity and then drop back to this.
+   */
+  --luigi-face-opacity: 0.6;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  opacity: 1;
+  transition: opacity 800ms ease-in-out;
+}
+
+/* DPMS has already blacked the panel here; this just guarantees a clean reset. */
+.luigi.state-asleep {
+  opacity: 0;
+}
+
+/* ---------- face ---------- */
+
+.luigi-face {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 330px;
+  height: 215px;
+  border-radius: 34px;
+  background: var(--luigi-fill);
+  opacity: var(--luigi-face-opacity);
+
+  /* Grounds the solid plate against a black mirror without adding a glow. */
+  box-shadow:
+    0 10px 30px rgb(0 0 0 / 55%),
+    inset 0 -6px 0 rgb(0 0 0 / 10%);
+  transition: background-color 600ms ease;
+}
+
+.luigi-eyes {
+  display: flex;
+  gap: 78px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Simple round dots, as on the original. */
+.luigi-eye {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--luigi-ink);
+  animation: luigi-blink 5.5s infinite;
+}
+
+/* Offset so both eyes do not blink in perfect lockstep. */
+.luigi-eye.right {
+  animation-delay: 120ms;
+}
+
+/* Wide and shallow — the original's smile is gentle, not a deep grin. */
+.luigi-mouth {
+  width: 138px;
+  height: 40px;
+  border-bottom: 9px solid var(--luigi-ink);
+  border-radius: 0 0 138px 138px / 0 0 40px 40px;
+}
+
+/* ---------- moods ---------- */
+
+.luigi.mood-default {
+  --luigi-fill: #7ecfb4;
+  --luigi-ink: #14332c;
+}
+
+.luigi.mood-happy {
+  --luigi-fill: #8adebc;
+  --luigi-ink: #14332c;
+}
+
+.luigi.mood-happy .luigi-mouth {
+  width: 152px;
+  height: 48px;
+  border-bottom-width: 10px;
+  border-radius: 0 0 152px 152px / 0 0 48px 48px;
+}
+
+.luigi.mood-concerned {
+  --luigi-fill: #e3c489;
+  --luigi-ink: #3a2a12;
+}
+
+.luigi.mood-concerned .luigi-eye {
+  height: 19px;
+  border-radius: 50% 50% 45% 45%;
+}
+
+.luigi.mood-concerned .luigi-mouth {
+  width: 112px;
+  height: 32px;
+  border-bottom: none;
+  border-top: 9px solid var(--luigi-ink);
+  border-radius: 112px 112px 0 0 / 32px 32px 0 0;
+}
+
+.luigi.mood-excited {
+  --luigi-fill: #86e6dd;
+  --luigi-ink: #10332f;
+}
+
+.luigi.mood-excited .luigi-eye {
+  width: 36px;
+  height: 36px;
+}
+
+/* Open-mouthed grin: filled rather than a stroke. */
+.luigi.mood-excited .luigi-mouth {
+  width: 156px;
+  height: 56px;
+  border: none;
+  border-radius: 0 0 156px 156px / 0 0 56px 56px;
+  background: var(--luigi-ink);
+}
+
+.luigi.mood-sleepy {
+  --luigi-fill: #5e9a89;
+  --luigi-ink: #16302b;
+}
+
+.luigi.mood-sleepy .luigi-eye {
+  height: 7px;
+  border-radius: 4px;
+  animation-duration: 9s;
+}
+
+.luigi.mood-sleepy .luigi-mouth {
+  width: 96px;
+  height: 0;
+  border-bottom: 7px solid var(--luigi-ink);
+  border-radius: 0;
+}
+
+/* ---------- subtitle ---------- */
+
+/*
+ * No box: just text on the mirror. The shadow is doing the legibility work
+ * that the panel used to, so it stays readable over whatever is behind it.
+ */
+.luigi-subtitle {
+  min-height: 1.5em;
+  max-width: 900px;
+  color: #fff;
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow:
+    0 2px 10px rgb(0 0 0 / 90%),
+    0 0 30px rgb(0 0 0 / 70%);
+  text-wrap: balance;
+}
+
+/* ---------- animation ---------- */
+
+@keyframes luigi-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes luigi-boot {
+  0% {
+    transform: scale(0.86);
+    opacity: 0;
+  }
+
+  45% {
+    opacity: var(--luigi-face-opacity);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: var(--luigi-face-opacity);
+  }
+}
+
+@keyframes luigi-talk {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(0.55);
+  }
+}
+
+@keyframes luigi-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-7deg);
+  }
+
+  75% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes luigi-fidget {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  30% {
+    transform: translateX(-9px);
+  }
+
+  65% {
+    transform: translateX(9px);
+  }
+}
+
+.luigi.state-waking .luigi-face {
+  animation: luigi-boot 1.2s ease-out;
+}
+
+.luigi.state-leaving .luigi-face {
+  animation: luigi-wave 600ms ease-in-out 3;
+}
+
+/* Looks around while it has nothing left to say. */
+.luigi.state-idle-fidget .luigi-eyes {
+  animation: luigi-fidget 6s ease-in-out infinite;
+}
+
+.luigi-face.talking .luigi-mouth {
+  animation: luigi-talk 260ms ease-in-out infinite;
+}
